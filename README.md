@@ -30,6 +30,50 @@ Human objects that you have initialized. Create a new array called sortedPeople 
 that is the people array sorted by age.
 </pre> 
 
+```swift
+class Human: CustomStringConvertible,Equatable,Comparable {
+    static func < (lhs: Human, rhs: Human) -> Bool { // comparable
+        return
+        lhs.age < rhs.age
+    }
+    
+    static func == (lhs: Human, rhs: Human) -> Bool { // Equatable
+        return
+        lhs.age == rhs.age && lhs.name == rhs.name
+    }
+    
+    var description: String {
+        return "the name of the human is \(name) and age \(age)"
+    }
+
+    var name: String
+    var age: Int
+    init(name:String, age:Int) {
+        self.name = name
+        self.age = age
+    }
+}
+
+let john = Human(name: "John", age: 23)
+let mary = Human(name: "Mary", age: 34)
+let matthew = Human(name: "Matthew", age: 22)
+print(john)
+print(mary)
+print(matthew)
+
+
+
+if john == mary {
+    print("they are the same")
+} else {
+    print("they are different")
+}
+var people = [john,matthew,mary]
+let sortedPeople = people.sorted{$0.age < $1.age}
+print(sortedPeople)
+
+```
+
 </br> </br> 
 
 
@@ -47,7 +91,39 @@ and drive() should print "Begin pedaling!". Create an instance of Bike, print it
 then call drive().
 </pre>  
 
-</br> </br> 
+``` Swift
+
+protocol Vehicle {
+    var numberOfWheels: Int { get }
+    static func drive()
+    
+}
+
+struct Car: Vehicle {
+    var numberOfWheels: Int {
+        return 4
+    }
+    
+    static func drive() {
+        print("Vroom, vroom!")
+    }
+}
+let nissan = Car()
+print(nissan.numberOfWheels)
+Car.drive()
+
+
+```
+
+
+
+
+</br> 
+
+
+
+
+</br> 
 
 <pre> 
 Question 3. 
@@ -63,7 +139,37 @@ protocol Flyable {
  var airspeedVelocity: Double { get }
 }
 </pre> 
+``` Swift
 
+protocol Bird {
+    var name: String { get }
+    var canFly: Bool { get }
+}
+
+protocol Flyable {
+    var airspeedVelocity: Double { get }
+}
+
+struct Penguin: Bird {
+    var name: String
+    var canFly: Bool
+    var color: String
+    
+    
+}
+struct Egale: Bird, Flyable{
+    var name: String
+    var canFly: Bool
+    var airspeedVelocity: Double
+    
+}
+let penguin = Penguin.init(name: "Penguin", canFly: false, color: "black and white")
+let eagle = Egale.init(name: "Egale", canFly: true, airspeedVelocity: 34.0)
+
+
+
+
+```
 </br> </br> 
 
 <pre>
@@ -89,7 +195,32 @@ bruceBanner.transform()  // notHulk
 </pre> 
 
 </br> </br> 
+``` Swift
 
+protocol Transformation {
+    mutating func transformation()
+}
+
+enum SuperHero: Transformation {
+    case hulk, notHulk
+    mutating func transformation() {
+        switch self {
+        case .hulk:
+            self = .notHulk
+        case .notHulk:
+            self = .hulk
+        }
+    }
+  
+}
+var bruceBanner = SuperHero.notHulk
+bruceBanner.transformation()
+
+
+
+
+
+```
 <pre>
 Question 5. 
 // 1. Create a protocol called Communication
@@ -107,4 +238,46 @@ Question 5.
 // 7. Iterate over the array and have them print talk.
 </pre> 
 
+``` Swift
+protocol Communication {
+    var talk: String {get set}
+}
 
+class Cow: Communication, CustomStringConvertible{
+    var description: String {
+       return  "the sound the cow makes is \(talk)"
+    }
+    
+    var talk: String = "MOOOOOOOOO"
+    
+}
+
+class Dog: Communication, CustomStringConvertible{
+    var description: String {
+       return "the sound the dog makes is \(talk)"
+    }
+    
+    var talk: String = "RUFFFF"
+    
+}
+class Cat: Communication, CustomStringConvertible{
+    var description: String {
+        return  "the sound the cat makes is \(talk)"
+    }
+    
+    var talk: String = "Meow"
+}
+
+let blackCat = Cat.init()
+let brownDog = Dog.init()
+let cow = Cow.init()
+
+let animals = [blackCat,brownDog,cow] as [Any]
+
+for animal in animals{
+    print(animal)
+}
+
+
+
+```
